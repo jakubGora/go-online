@@ -1,0 +1,69 @@
+.First {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  h2 {
+    margin-top: 1rem;
+    color: white;
+  }
+  form {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    label {
+      background-color: rgb(114, 114, 114);
+      color: white;
+      padding-left: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      p {
+        color: white;
+        font-size: 1.1rem;
+        padding-right: 0.5rem;
+      }
+      input[data-color] {
+        height: 3rem;
+        width: 8rem;
+        border: none;
+        padding: 0.5rem;
+        background-color: rgb(88, 88, 88);
+        color: white;
+        font-size: 1.2rem;
+        outline: none;
+      }
+    }
+    input[type="submit"] {
+      cursor: pointer;
+      color: white;
+      padding: 1rem;
+      border: none;
+      background-color: rgb(109, 109, 109);
+    }
+    input[type="submit"]:hover {
+      background-color: rgb(172, 172, 172);
+    }
+    .error {
+      background-color: rgb(255, 92, 92);
+      padding: 1rem;
+      color: white;
+      margin-bottom: 1rem;
+    }
+  }
+  .colorTest {
+    width: 3rem;
+    height: 3rem;
+    background-color: white;
+    border: 1px solid rgb(245, 245, 245);
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
