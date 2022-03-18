@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { rgbToSaturation } from "../../App";
+import { IColor } from "../../interfaces/interface";
 
 import "./AddColor.css";
 
-const First = () => {
+interface IAddColor {
+  setSavedColor: React.Dispatch<React.SetStateAction<IColor[]>>;
+}
+
+const AddColor: React.FC<IAddColor> = ({ setSavedColor }) => {
   const [inputColor, setInputColor] = useState<string>("#");
   const [error, setError] = useState<string | null>(null);
 
@@ -11,13 +17,35 @@ const First = () => {
 
     if (validInputColor(inputColor)) {
       setError(null);
-      // dodawanie do bazy
-      let localColors = localStorage.getItem("colors");
 
-      localStorage.setItem(
-        "colors",
-        (localColors ? localColors + "|" : "") + inputColor
-      );
+      let color: IColor = {
+        colorId: Date.now(),
+        color: inputColor,
+        red: parseInt(inputColor.substring(1, 3), 16),
+        green: parseInt(inputColor.substring(3, 5), 16),
+        blue: parseInt(inputColor.substring(5, 7), 16),
+        saturation: Math.floor(
+          Math.abs(
+            rgbToSaturation(
+              parseInt(inputColor.substring(1, 3), 16),
+              parseInt(inputColor.substring(3, 5), 16),
+              parseInt(inputColor.substring(5, 7), 16)
+            )
+          ) * 100
+        ),
+      };
+
+      let localColors;
+      if (localStorage.getItem("colors")) {
+        localColors = JSON.parse(localStorage.getItem("colors") as string);
+      } else {
+        localColors = { Colors: [] };
+      }
+
+      localColors["Colors"].push(color);
+
+      localStorage.setItem("colors", JSON.stringify(localColors));
+      setSavedColor((prev) => [...prev, color]);
 
       setInputColor("#");
     } else {
@@ -30,7 +58,7 @@ const First = () => {
     if (e.target.value[0] != "#") {
       e.target.value = "#" + e.target.value;
     }
-    let regex = new RegExp("^[A-F0-9]{1}$");
+    let regex: RegExp = new RegExp("^[A-F0-9]{1}$");
     if (!regex.test(e.target.value[e.target.value.length - 1])) {
       e.target.value = e.target.value.substring(0, e.target.value.length - 1);
     }
@@ -38,16 +66,12 @@ const First = () => {
   };
 
   const validInputColor = (input: string): boolean => {
-    let regex = new RegExp("^#$|[a-fA-F0-9]{6}$");
+    let regex: RegExp = new RegExp("^#$|[a-fA-F0-9]{6}$");
     return input.length === 7 && regex.test(input);
   };
 
-  useEffect(() => {
-    // localStorage.setItem("colors", "");
-    console.log(localStorage.getItem("colors")?.split("|"));
-  }, []);
   return (
-    <div className="First">
+    <div className="AddColor">
       <h2>Dodaj kolor:</h2>
       <form onSubmit={(e) => onSubmitFun(e)}>
         <label htmlFor="Color">
@@ -70,11 +94,20 @@ const First = () => {
             {validInputColor(inputColor) ? "" : "invalid"}
           </div>
         </label>
-        {error ? <div className="error">{error}</div> : null}
+        {error ? (
+          <div className="error">
+            {error}
+            <p>
+              Wpisany kod koloru musi składać się z 7 znaków:
+              <br /> '#' - pierwszy znak, <br /> oraz <br /> 6 znaków z zakresu
+              [0-9] i [A-F]
+            </p>
+          </div>
+        ) : null}
         <input type="submit" />
       </form>
     </div>
   );
 };
 
-export default First;
+export default AddColor;
