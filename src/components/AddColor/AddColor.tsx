@@ -58,6 +58,9 @@ const AddColor: React.FC<IAddColor> = ({ setSavedColor }) => {
     if (e.target.value[0] != "#") {
       e.target.value = "#" + e.target.value;
     }
+    if (e.target.value.length === 0) {
+      e.target.value = "#";
+    }
     let regex: RegExp = new RegExp("^[A-F0-9]{1}$");
     if (!regex.test(e.target.value[e.target.value.length - 1])) {
       e.target.value = e.target.value.substring(0, e.target.value.length - 1);

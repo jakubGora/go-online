@@ -17,48 +17,41 @@ export const rgbToSaturation = (r: number, g: number, b: number): number => {
 
 const App: React.FC = () => {
   const [savedColors, setSavedColors] = useState<IColor[]>([]);
-
+  const [predefColors, setPredefColors] = useState<IColor[]>([]);
   const preDefColorList: string[] = [
     "#F44336",
     "#FFEBEE",
     "#FFCDD2",
     "#EF9A9A",
     "#E57373",
-
     "#FF80AB",
     "#FF4081",
     "#F50057",
     "#C51162",
     "#9C27B0",
-
     "#6A1B9A",
     "#4A148C",
     "#EA80FC",
     "#E040FB",
     "#D500F9",
-
     "#E8EAF6",
     "#C5CAE9",
     "#9FA8DA",
     "#7986CB",
-
     "#3D5AFE",
     "#304FFE",
     "#2196F3",
     "#E3F2FD",
-
     "#004D40",
     "#A7FFEB",
     "#64FFDA",
     "#1DE9B6",
     "#00BFA5",
     "#4CAF50",
-
     "#00C853",
     "#8BC34A",
     "#F1F8E9",
     "#DCEDC8",
-
     "#F9FBE7",
     "#F0F4C3",
     "#E6EE9C",
@@ -69,7 +62,6 @@ const App: React.FC = () => {
     "#AFB42B",
     "#9E9D24",
     "#827717",
-
     "#FDD835",
     "#FBC02D",
     "#F9A825",
@@ -82,7 +74,6 @@ const App: React.FC = () => {
     "#FFF8E1",
     "#FFECB3",
     "#FFE082",
-
     "#FFF3E0",
     "#FFE0B2",
     "#FFCC80",
@@ -94,7 +85,6 @@ const App: React.FC = () => {
     "#EF6C00",
     "#E65100",
     "#FFD180",
-
     "#FF6E40",
     "#FF3D00",
     "#DD2C00",
@@ -102,7 +92,6 @@ const App: React.FC = () => {
     "#EFEBE9",
     "#D7CCC8",
     "#BCAAA4",
-
     "#B0BEC5",
     "#90A4AE",
     "#78909C",
@@ -116,35 +105,36 @@ const App: React.FC = () => {
   ];
 
   useEffect(() => {
-    // localStorage.setItem("colors", "");
-    if (!localStorage.getItem("colors")) {
-      let map: IColor[] = preDefColorList.map(
-        (e) =>
-          ({
-            color: e,
-            red: parseInt(e.substring(1, 3), 16),
-            green: parseInt(e.substring(3, 5), 16),
-            blue: parseInt(e.substring(5, 7), 16),
-            saturation: Math.floor(
-              Math.abs(
-                rgbToSaturation(
-                  parseInt(e.substring(1, 3), 16),
-                  parseInt(e.substring(3, 5), 16),
-                  parseInt(e.substring(5, 7), 16)
-                )
-              ) * 100
-            ),
-          } as IColor)
-      );
+    let map: IColor[] = preDefColorList.map(
+      (e) =>
+        ({
+          color: e,
+          red: parseInt(e.substring(1, 3), 16),
+          green: parseInt(e.substring(3, 5), 16),
+          blue: parseInt(e.substring(5, 7), 16),
+          saturation: Math.floor(
+            Math.abs(
+              rgbToSaturation(
+                parseInt(e.substring(1, 3), 16),
+                parseInt(e.substring(3, 5), 16),
+                parseInt(e.substring(5, 7), 16)
+              )
+            ) * 100
+          ),
+        } as IColor)
+    );
 
-      setSavedColors((prev) => [...prev, ...map] as IColor[]);
-    }
+    setPredefColors((prev) => [...prev, ...map] as IColor[]);
   }, []);
 
   return (
     <div className="App">
       <AddColor setSavedColor={setSavedColors} />
-      <ColorList savedColors={savedColors} setSavedColors={setSavedColors} />
+      <ColorList
+        savedColors={savedColors}
+        setSavedColors={setSavedColors}
+        predefColors={predefColors}
+      />
     </div>
   );
 };

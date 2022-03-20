@@ -9,9 +9,14 @@ import "./ColorList.css";
 interface IColorList {
   setSavedColors: React.Dispatch<React.SetStateAction<IColor[]>>;
   savedColors: IColor[];
+  predefColors: IColor[];
 }
 
-const ColorList: React.FC<IColorList> = ({ setSavedColors, savedColors }) => {
+const ColorList: React.FC<IColorList> = ({
+  setSavedColors,
+  savedColors,
+  predefColors,
+}) => {
   const [red, setRed] = useState<number>();
   const [green, setGreen] = useState<number>();
   const [blue, setBlue] = useState<number>();
@@ -92,6 +97,7 @@ const ColorList: React.FC<IColorList> = ({ setSavedColors, savedColors }) => {
         <div className="list">
           <h3>Lista kolorów</h3>{" "}
           {savedColors
+            .concat(predefColors)
             .filter((e) => filterColorsList(e))
             .sort(
               (a, b) => b.red - a.red || b.green - a.green || b.blue - a.blue
