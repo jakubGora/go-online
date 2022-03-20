@@ -74,7 +74,6 @@ const ColorList: React.FC<IColorList> = ({ setSavedColors, savedColors }) => {
 
   return (
     <div className="ColorList">
-      <h2>Filtry</h2>
       <Filter
         setRed={setRed}
         setGreen={setGreen}

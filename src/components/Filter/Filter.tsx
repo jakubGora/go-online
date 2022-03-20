@@ -38,6 +38,7 @@ const Filter: React.FC<IFilter> = ({
 
   return (
     <div className="Filter">
+      <h2>Filtry:</h2>
       <form>
         <label htmlFor="red">
           <p>Red: </p>
